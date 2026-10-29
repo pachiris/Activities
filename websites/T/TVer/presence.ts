@@ -63,12 +63,13 @@ presence.on('UpdateData', async () => {
     presence.getSetting<boolean>('videoPic'),
   ])
   const { pathname, href } = document.location
+  // TVer のクラス名が EpisodeDescription_* などに変わったので、新旧どちらにも対応する
   const title = document.querySelector(
-    '[class^=\'titles_container\'] h1',
-  )?.textContent
+    '[class*=\'Description_title__\'], [class^=\'titles_container\'] h1',
+  )?.textContent?.trim()
   const seriesTitle = document.querySelector(
-    '[class^=\'titles_container\'] h2',
-  )?.textContent
+    '[class*=\'Description_seriesTitle__\'], [class^=\'titles_container\'] h2',
+  )?.textContent?.trim()
 
   if (oldLang !== newLang || !strings) {
     oldLang = newLang
@@ -94,7 +95,7 @@ presence.on('UpdateData', async () => {
           '[class^=\'live-scheduled_host\']',
         )
         const tvStation = document.querySelector(
-          '[class^=\'description_metaDetail\'] > span',
+          '[class*=\'Description_producer__\'], [class^=\'description_metaDetail\'] > span',
         )?.textContent
         if (privacy) {
           if (isScheduled)
@@ -147,8 +148,8 @@ presence.on('UpdateData', async () => {
             }.jpg`
           }
           const tvStation = document.querySelector(
-            '[class^=\'description_meta\'] > div:nth-child(1)',
-          )?.textContent
+            '[class*=\'EpisodeDescription_producer__\'], [class^=\'description_meta\'] > div:nth-child(1)',
+          )?.textContent?.trim()
           presenceData.details = vidDetail
             .replace('%tvStation%', tvStation ?? '')
             .replace('%seriesTitle%', seriesTitle ?? '')

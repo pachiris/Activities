@@ -5,6 +5,12 @@
     "id": "223277933521928203",
     "name": "ryunt"
   },
+  "contributors": [
+    {
+      "name": "0120r",
+      "id": "754572586914021468"
+    }
+  ],
   "service": "TVer",
   "description": {
     "en": "TVer is a Japanese ad-supported video on demand (AVOD) service. It allows viewers to watch TV programs they missed during their initial broadcast for free for one week.",
@@ -12,7 +18,7 @@
   },
   "url": "tver.jp",
   "regExp": "^https?[:][/][/]([a-z0-9-]+[.])*tver[.]jp[/]",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "logo": "https://cdn.rcd.gg/PreMiD/websites/T/TVer/assets/logo.png",
   "thumbnail": "https://cdn.rcd.gg/PreMiD/websites/T/TVer/assets/thumbnail.png",
   "color": "#21ABE6",
