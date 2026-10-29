@@ -1,0 +1,30 @@
+{
+  "$schema": "https://schemas.premid.app/metadata/1.17",
+  "apiVersion": 1,
+  "author": {
+    "id": "754572586914021468",
+    "name": "0120r"
+  },
+  "service": "寿司打",
+  "altnames": [
+    "Sushida",
+    "Sushi Typing"
+  ],
+  "description": {
+    "en": "Sushida is a popular Japanese typing game where you type the names of sushi plates before they pass by.",
+    "ja": "寿司打は、流れてくるお寿司の文字を打ってお皿を取っていく定番のタイピングゲームです。"
+  },
+  "url": "sushida.net",
+  "regExp": "^https?[:][/][/](www[.])?sushida[.]net[/]",
+  "version": "1.0.0",
+  "logo": "TODO_LOGO_512",
+  "thumbnail": "TODO_THUMBNAIL",
+  "color": "#C8102E",
+  "category": "games",
+  "tags": [
+    "typing",
+    "browser-game",
+    "japan",
+    "education"
+  ]
+}
