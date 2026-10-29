@@ -13,11 +13,13 @@ presence.on('UpdateData', () => {
     startTimestamp: browsingTimestamp,
   }
 
-  // ゲーム本体は Unity (canvas) なので、中の状態は読み取れない
-  if (document.querySelector('canvas'))
-    presenceData.details = 'タイピング中'
-  else if (pathname.includes('ranking'))
-    presenceData.details = 'ランキングを見ています'
+  // ゲーム本体は Unity (canvas) なので、中の状態 (コースやスコア) は読み取れない
+  if (pathname.startsWith('/play'))
+    presenceData.details = 'プレイ中'
+  else if (pathname.startsWith('/room'))
+    presenceData.details = 'ルームを見ています'
+  else if (pathname.startsWith('/mini'))
+    presenceData.details = 'ミニゲームをプレイ中'
   else
     presenceData.details = 'トップページ'
 
