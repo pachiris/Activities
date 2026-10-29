@@ -1,0 +1,57 @@
+{
+  "$schema": "https://schemas.premid.app/metadata/1.17",
+  "apiVersion": 1,
+  "author": {
+    "id": "754572586914021468",
+    "name": "0120r"
+  },
+  "service": "小説家になろう",
+  "altnames": [
+    "Shousetsuka ni Narou",
+    "Syosetu",
+    "Narou"
+  ],
+  "description": {
+    "en": "Shousetsuka ni Narou (Syosetu) is Japan's largest web novel site, where you can read and write novels for free.",
+    "ja": "小説家になろうは、無料で小説を読んだり書いたりできる日本最大級の小説投稿サイトです。"
+  },
+  "url": [
+    "syosetu.com",
+    "ncode.syosetu.com",
+    "yomou.syosetu.com",
+    "mypage.syosetu.com"
+  ],
+  "regExp": "^https?[:][/][/]((www|ncode|yomou|mypage)[.])?syosetu[.]com[/]",
+  "version": "1.0.0",
+  "logo": "TODO_LOGO_512",
+  "thumbnail": "TODO_THUMBNAIL",
+  "color": "#18B7CD",
+  "category": "other",
+  "tags": [
+    "novel",
+    "web-novel",
+    "light-novel",
+    "reading",
+    "japan"
+  ],
+  "settings": [
+    {
+      "id": "showTitle",
+      "title": "作品名・話タイトルを表示",
+      "icon": "fad fa-book",
+      "value": true
+    },
+    {
+      "id": "showImage",
+      "title": "作品の画像を表示",
+      "icon": "fad fa-image",
+      "value": true
+    },
+    {
+      "id": "buttons",
+      "title": "ボタンを表示",
+      "icon": "fad fa-link",
+      "value": true
+    }
+  ]
+}
