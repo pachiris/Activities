@@ -14,21 +14,27 @@ interface WatchInfo {
   thumbnail?: string
 }
 
-// 動画ページの <meta name="server-response"> に入っている JSON を読む。
-// ページ内で別の動画に移動したときは古いままなので、URL の ID と一致するときだけ使う。
+// 動画ページに埋め込まれた構造化データ (application/ld+json の VideoObject) を読む。
+// ページ内で別の動画に移動したときに古いままのことがあるので、URL の ID と一致するときだけ使う。
 function getWatchInfo(videoId: string | undefined): WatchInfo {
   const info: WatchInfo = {}
-  try {
-    const raw = document.querySelector<HTMLMetaElement>('meta[name="server-response"]')?.content
-    const response = raw ? JSON.parse(raw)?.data?.response : null
-    if (response?.video?.id && response.video.id === videoId) {
-      info.id = response.video.id
-      info.title = response.video.title
-      info.owner = response.owner?.nickname ?? response.channel?.name
-      info.thumbnail = response.video.thumbnail?.ogp ?? response.video.thumbnail?.largeUrl ?? response.video.thumbnail?.url
+  if (!videoId)
+    return info
+  for (const script of document.querySelectorAll('script[type="application/ld+json"]')) {
+    try {
+      const json = JSON.parse(script.textContent ?? '')
+      const data = Array.isArray(json) ? json[0] : json
+      if (data?.['@type'] !== 'VideoObject' || !String(data.url ?? data['@id'] ?? '').endsWith(`/${videoId}`))
+        continue
+      const thumbnails: string[] = [data.thumbnailUrl ?? []].flat()
+      info.id = videoId
+      info.title = data.name
+      info.owner = data.author?.name
+      info.thumbnail = thumbnails.find(url => url.includes('/thumbnails/')) ?? thumbnails[0]
+      break
     }
+    catch {}
   }
-  catch {}
   return info
 }
 
@@ -41,7 +47,7 @@ function getLiveInfo(liveId: string | undefined): WatchInfo {
     if (program?.nicoliveProgramId && program.nicoliveProgramId === liveId) {
       info.id = program.nicoliveProgramId
       info.title = program.title
-      info.owner = program.supplier?.name
+      info.owner = program.socialGroup?.name ?? program.supplier?.name
       info.thumbnail = program.thumbnail?.large ?? program.thumbnail?.small
     }
   }
@@ -177,7 +183,7 @@ presence.on('UpdateData', async () => {
         const info = getLiveInfo(liveId)
         presenceData.details = info.title
           ?? document.querySelector('[class^=\'___program-title___\'] span')?.textContent
-          ?? titleFromDocument(/\s*-\s*ニコニコ生放送.*$/)
+          ?? titleFromDocument(/\s*-\s*\d{4}\/\d{1,2}\/\d{1,2}.*$|\s*-\s*ニコニコ生放送.*$/)
           ?? ''
         const owner = info.owner ?? (
           document.querySelector('a.label')
