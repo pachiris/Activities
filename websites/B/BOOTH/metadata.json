@@ -5,6 +5,12 @@
     "id": "881563425707282463",
     "name": "nak_ymi"
   },
+  "contributors": [
+    {
+      "name": "0120r",
+      "id": "754572586914021468"
+    }
+  ],
   "service": "BOOTH",
   "description": {
     "en": "BOOTH is a comprehensive creative market in collaboration with pixiv. You can easily create a shop for free, and we also provide product storage and shipping agency services!",
@@ -12,12 +18,32 @@
   },
   "url": "booth.pm",
   "regExp": "^https?[:][/][/]([a-z0-9-]+[.])*booth[.]pm[/]",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "logo": "https://cdn.rcd.gg/PreMiD/websites/B/BOOTH/assets/logo.png",
   "thumbnail": "https://cdn.rcd.gg/PreMiD/websites/B/BOOTH/assets/thumbnail.png",
   "color": "#FC4D50",
   "category": "socials",
   "tags": [
     "shop"
+  ],
+  "settings": [
+    {
+      "id": "privacy",
+      "title": "プライバシーモード（商品名を隠す）",
+      "icon": "fad fa-user-secret",
+      "value": false
+    },
+    {
+      "id": "showImage",
+      "title": "商品の画像を表示",
+      "icon": "fad fa-image",
+      "value": true
+    },
+    {
+      "id": "buttons",
+      "title": "ボタンを表示",
+      "icon": "fad fa-link",
+      "value": true
+    }
   ]
 }
