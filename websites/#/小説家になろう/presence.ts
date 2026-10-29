@@ -12,20 +12,26 @@ function meta(property: string): string | null {
 }
 
 function novelTitle(ncode: string): string {
-  const link = [...document.querySelectorAll<HTMLAnchorElement>('a[href]')]
-    .find(a => new RegExp(`/${ncode}/?$`, 'i').test(a.pathname) && a.textContent?.trim())
-  return link?.textContent?.trim() ?? document.title.split(' - ')[0]?.trim() ?? ''
+  // 本文ページでは上部の .c-announce に作品名のリンクがある
+  const announce = [...document.querySelectorAll<HTMLAnchorElement>('.c-announce a[href]')]
+    .find(a => new RegExp(`/${ncode}/?$`, 'i').test(a.pathname))
+  // 目次ページでは作品名が h1 にある
+  const heading = document.querySelector('.p-novel__title:not(.p-novel__title--rensai)')
+  const subtitle = document.querySelector('.p-novel__title--rensai, .p-novel__subtitle')?.textContent?.trim()
+  const fromTitle = subtitle && document.title.endsWith(` - ${subtitle}`)
+    ? document.title.slice(0, -(subtitle.length + 3))
+    : document.title
+  return (announce?.textContent ?? heading?.textContent ?? fromTitle).trim()
+}
+
+function episodeSubtitle(): string {
+  return document.querySelector('.p-novel__title--rensai, .p-novel__subtitle')?.textContent?.trim() ?? ''
 }
 
 function episodeCounter(): [number, number] | null {
-  for (const el of document.querySelectorAll<HTMLElement>('div, span, p')) {
-    if (el.children.length)
-      continue
-    const m = el.textContent?.trim().match(/^(\d+)\s*\/\s*(\d+)$/)
-    if (m)
-      return [Number(m[1]), Number(m[2])]
-  }
-  return null
+  const text = document.querySelector('.p-novel__number')?.textContent?.trim() ?? ''
+  const m = text.match(/^(\d+)\s*\/\s*(\d+)$/)
+  return m ? [Number(m[1]), Number(m[2])] : null
 }
 
 function cut(text: string, max = 120): string {
@@ -59,9 +65,7 @@ presence.on('UpdateData', async () => {
     const episode = parts[1] && /^\d+$/.test(parts[1]) ? Number(parts[1]) : null
     if (episode !== null) {
       const counter = episodeCounter()
-      const subtitle = title && document.title.startsWith(`${title} - `)
-        ? document.title.slice(title.length + 3).trim()
-        : ''
+      const subtitle = episodeSubtitle()
       const number = counter ? `${counter[0]}/${counter[1]}話` : `第${episode}話`
       presenceData.details = showTitle && title ? cut(title) : '小説を読んでいます'
       presenceData.state = showTitle && subtitle ? cut(`${number}：${subtitle}`) : number
