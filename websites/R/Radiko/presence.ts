@@ -83,6 +83,16 @@ function isPlaying(): boolean | null {
   return null
 }
 
+function readElapsed(): number | null {
+  for (const el of document.querySelectorAll('.player-area .start')) {
+    const m = el.textContent?.trim().match(/^(\d{1,2}):(\d{2}):(\d{2})$/)
+    if (m)
+      return Number(m[1]) * 3600 + Number(m[2]) * 60 + Number(m[3])
+  }
+  const media = document.querySelector<HTMLMediaElement>('audio, video')
+  return media && !Number.isNaN(media.duration) && Number.isFinite(media.currentTime) ? Math.floor(media.currentTime) : null
+}
+
 function cut(text: string, max = 120): string {
   return text.length > max ? `${text.slice(0, max)}…` : text
 }
@@ -143,8 +153,8 @@ presence.on('UpdateData', async () => {
         presenceData.endTimestamp = toUnix(program.to)
       }
       else if (timefreeTime && program) {
-        const media = document.querySelector<HTMLMediaElement>('audio, video')
-        const elapsed = media && Number.isFinite(media.currentTime) ? Math.floor(media.currentTime) : null
+        // radiko の音声は <audio> を通らないので、再生バーの経過時間 (例: 00:12:34) を読む
+        const elapsed = readElapsed()
         if (elapsed !== null) {
           const now = Math.floor(Date.now() / 1000)
           presenceData.startTimestamp = now - elapsed
