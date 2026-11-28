@@ -73,17 +73,13 @@ presence.on('UpdateData', async () => {
       presenceData.smallImageKey = Assets.Reading
       presenceData.smallImageText = '読書中'
     }
-    if (showNovel) {
-      const title = getNovelTitle(ncode, isEpisode)
-      const episode = showEpisode
-        ? getEpisodeTitle(isEpisode)
-        : null
-      const state = title && episode
-        ? `${title} - ${episode}`
-        : (title ?? episode)
-      if (state)
-        presenceData.state = state
-    }
+    const title = showNovel ? getNovelTitle(ncode, isEpisode) : null
+    const episode = showEpisode ? getEpisodeTitle(isEpisode) : null
+    const state = title && episode
+      ? `${title} - ${episode}`
+      : (title ?? episode)
+    if (state)
+      presenceData.state = state
     presenceData.startTimestamp = readingSince
     presence.setActivity(presenceData)
     return
