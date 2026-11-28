@@ -13,7 +13,7 @@
   ],
   "service": "DeepSeek",
   "description": {
-    "en": "DeepSeek-V3 achieves a significant breakthrough in inference speed over previous models. It tops the leaderboard among open-source models and rivals the most advanced closed-source models globally."
+    "en": "DeepSeek is an AI chatbot service by DeepSeek, featuring DeepThink reasoning and web search."
   },
   "url": "chat.deepseek.com",
   "regExp": "^https?[:][/][/]chat[.]deepseek[.]com[/]",
